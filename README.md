@@ -6,9 +6,9 @@
 
 ## 📥 Direct APK Download & Install
 
-| Direct 1-Tap Download | Camera-Scannable Mobile QR Code |
-| :---: | :---: |
-| [![Download APK](https://img.shields.io/badge/Download-MoonlightVR--Unity.apk-brightgreen?style=for-the-badge&logo=android&logoColor=white)](https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) <br><br> **Direct Link**: <br> [`MoonlightVR-Unity.apk`](https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) | ![MoonlightVR APK QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) <br> *(Point your phone or Quest browser camera here to download)* |
+| Direct 1-Tap Download | Camera-Scannable Mobile QR Code | Official GitHub Release |
+| :---: | :---: | :---: |
+| [![Download APK](https://img.shields.io/badge/Download-MoonlightVR--Unity.apk-brightgreen?style=for-the-badge&logo=android&logoColor=white)](https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) <br><br> **Direct Raw Link (98.4 MB)**: <br> [`MoonlightVR-Unity.apk`](https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) | ![MoonlightVR APK QR Code](https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://github.com/pharmacophobia/MoonlightVR-Unity/raw/main/MoonlightVR-Unity.apk) <br> *(Point your phone or Quest browser camera here to download)* | [![Release v1.0.0](https://img.shields.io/badge/Release-v1.0.0-blue?style=for-the-badge&logo=github)](https://github.com/pharmacophobia/MoonlightVR-Unity/releases/tag/v1.0.0) <br><br> **Release Binary**: <br> [Download v1.0.0 Asset](https://github.com/pharmacophobia/MoonlightVR-Unity/releases/download/v1.0.0/MoonlightVR-Unity.apk) |
 
 ### Quick Sideloading via ADB
 ```bash
