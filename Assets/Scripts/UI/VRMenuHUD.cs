@@ -1,3 +1,21 @@
+// =============================================================================
+// MoonlightVR for Meta Quest 3
+// Copyright (C) 2026 Pharmacophobia & Contributors
+//
+// This program is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// This program is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with this program.  If not, see <https://www.gnu.org/licenses/>.
+// =============================================================================
+
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -49,6 +67,12 @@ namespace MoonlightVR.UI
         [SerializeField] private TextMeshProUGUI environmentLabelText;
         [SerializeField] private Button toggleKeyboardButton;
         [SerializeField] private Button quickDictationButton;
+
+        [Header("Open Source & Legal Compliance (GPL-3.0)")]
+        [SerializeField] private Button aboutButton;
+        [SerializeField] private GameObject aboutModalRoot;
+        [SerializeField] private TextMeshProUGUI aboutModalText;
+        [SerializeField] private Button aboutCloseButton;
 
         [Header("Diagnostics")]
         [SerializeField] private TextMeshProUGUI fpsDiagnosticsText;
@@ -121,6 +145,8 @@ namespace MoonlightVR.UI
             if (nextEnvironmentButton != null) nextEnvironmentButton.onClick.AddListener(OnNextEnvironmentClicked);
             if (toggleKeyboardButton != null) toggleKeyboardButton.onClick.AddListener(OnToggleKeyboardClicked);
             if (quickDictationButton != null) quickDictationButton.onClick.AddListener(OnQuickDictationClicked);
+            if (aboutButton != null) aboutButton.onClick.AddListener(OnAboutClicked);
+            if (aboutCloseButton != null) aboutCloseButton.onClick.AddListener(OnCloseAboutClicked);
 
             if (SunshineClient.Instance != null)
             {
@@ -370,6 +396,86 @@ namespace MoonlightVR.UI
             {
                 VRDictationManager.Instance.ToggleDictation();
             }
+        }
+
+        private void OnAboutClicked()
+        {
+            EnsureAboutModal();
+            if (aboutModalRoot != null) aboutModalRoot.SetActive(true);
+        }
+
+        private void OnCloseAboutClicked()
+        {
+            if (aboutModalRoot != null) aboutModalRoot.SetActive(false);
+        }
+
+        private void EnsureAboutModal()
+        {
+            if (aboutModalRoot != null) return;
+
+            Canvas canvas = GetComponentInParent<Canvas>();
+            if (canvas == null) canvas = FindFirstObjectByType<Canvas>();
+
+            aboutModalRoot = new GameObject("GPL_AboutModal");
+            if (canvas != null) aboutModalRoot.transform.SetParent(canvas.transform, false);
+
+            RectTransform rootRt = aboutModalRoot.AddComponent<RectTransform>();
+            rootRt.sizeDelta = new Vector2(560, 420);
+            rootRt.anchoredPosition = new Vector2(0, 0);
+
+            // Semi-transparent background card
+            Image bgImg = aboutModalRoot.AddComponent<Image>();
+            bgImg.color = new Color(0.06f, 0.09f, 0.16f, 0.98f);
+
+            // Title & Content Text
+            GameObject textObj = new GameObject("AboutText");
+            textObj.transform.SetParent(aboutModalRoot.transform, false);
+            aboutModalText = textObj.AddComponent<TextMeshProUGUI>();
+            aboutModalText.fontSize = 13;
+            aboutModalText.color = Color.white;
+            aboutModalText.lineSpacing = 1.2f;
+            aboutModalText.richText = true;
+            aboutModalText.alignment = TextAlignmentOptions.TopLeft;
+
+            aboutModalText.text = 
+                "<b><size=16>🌌 MoonlightVR for Meta Quest 3</size></b> (v1.0.0)\n" +
+                "<b>License:</b> GNU General Public License v3.0 (GPL-3.0)\n\n" +
+                "This application is free software: you can redistribute it and/or modify " +
+                "it under the terms of the GNU General Public License as published by " +
+                "the Free Software Foundation, version 3.\n\n" +
+                "<b>Source Code Delivery (Section 6, GPL-3.0):</b>\n" +
+                "The complete corresponding source code is freely available at:\n" +
+                "<color=#38bdf8><u>https://github.com/pharmacophobia/MoonlightVR-Unity</u></color>\n\n" +
+                "<b>Upstream Projects & Credits:</b>\n" +
+                "• <b>Moonlight GameStream</b> (GPL-3.0) — <color=#94a3b8>moonlight-stream.org</color>\n" +
+                "• <b>Sunshine Server</b> (GPL-3.0) — <color=#94a3b8>app.sunshinevr.com</color>\n" +
+                "• <b>Moonlight Android XR</b> (GPL-3.0) — <color=#94a3b8>Cameron Gilleece</color>";
+
+            RectTransform textRt = textObj.GetComponent<RectTransform>();
+            textRt.sizeDelta = new Vector2(510, 320);
+            textRt.anchoredPosition = new Vector2(0, 30);
+
+            // Close Button
+            GameObject closeBtnObj = new GameObject("CloseAboutButton");
+            closeBtnObj.transform.SetParent(aboutModalRoot.transform, false);
+            RectTransform btnRt = closeBtnObj.AddComponent<RectTransform>();
+            btnRt.sizeDelta = new Vector2(160, 40);
+            btnRt.anchoredPosition = new Vector2(0, -170);
+
+            Image btnImg = closeBtnObj.AddComponent<Image>();
+            btnImg.color = new Color(0.15f, 0.35f, 0.70f);
+
+            aboutCloseButton = closeBtnObj.AddComponent<Button>();
+            aboutCloseButton.onClick.AddListener(OnCloseAboutClicked);
+
+            GameObject btnTextObj = new GameObject("BtnText");
+            btnTextObj.transform.SetParent(closeBtnObj.transform, false);
+            TextMeshProUGUI btnTmp = btnTextObj.AddComponent<TextMeshProUGUI>();
+            btnTmp.text = "Close";
+            btnTmp.fontSize = 15;
+            btnTmp.color = Color.white;
+            btnTmp.alignment = TextAlignmentOptions.Center;
+            btnTextObj.GetComponent<RectTransform>().sizeDelta = btnRt.sizeDelta;
         }
 
         private void UpdateStatusText(string msg)

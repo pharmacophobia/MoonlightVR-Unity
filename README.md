@@ -125,38 +125,54 @@ cd android
 
 ```
 MoonlightVR-Unity/
+├── LICENSE                               # Canonical GNU General Public License v3.0 (GPL-3.0)
+├── META_STORE_COMPLIANCE.md              # Meta Horizon Store (App Lab) GPL compliance playbook
 ├── Assets/
 │   ├── Scripts/
 │   │   ├── Moonlight/
 │   │   │   ├── SunshineClient.cs         # Host discovery, pairing, and session launcher
 │   │   │   ├── SunshineCrypto.cs         # Cryptographic pairing and challenge-response
-│   │   │   ├── MoonlightPacketProtocol.cs# UDP packet serializers for input and streaming
-│   │   │   ├── MoonlightInputManager.cs  # Low-latency UDP control input channel
+│   │   │   ├── MoonlightPacketProtocol.cs# UDP packet serializers for input, UTF-8 text, and streaming
+│   │   │   ├── MoonlightInputManager.cs  # Low-latency UDP control input channel & text injection
 │   │   │   └── MoonlightVideoReceiver.cs # Video streaming and MediaCodec hardware bridge
 │   │   ├── VR/
 │   │   │   ├── CurvedScreenGenerator.cs  # Procedural cylindrical display mesh & collider
+│   │   │   ├── VREnvironmentManager.cs   # 7 procedural 3D environments (Cosmic, Alpine, Cyberpunk, etc.)
+│   │   │   ├── VRDictationManager.cs     # Native Quest 3 / Android speech-to-text voice recognition
 │   │   │   ├── XRScreenRaycaster.cs      # VR laser pointer to desktop mouse mapping
 │   │   │   ├── SpatialScreenInteraction.cs # 6DoF screen manipulation & recentering
 │   │   │   └── MetaPassthroughManager.cs # Meta Quest 3 Mixed Reality passthrough
 │   │   └── UI/
-│   │       ├── VRMenuHUD.cs              # Spatial floating settings dashboard
+│   │       ├── VRMenuHUD.cs              # Spatial floating settings dashboard & GPL About modal
+│   │       ├── VRVirtualKeyboard.cs      # Floating 3D QWERTY virtual keyboard with mic button
 │   │       └── SettingsData.cs           # Persistent user settings
 │   ├── Shaders/
 │   │   ├── CurvedVideoScreen.shader      # High-performance unlit screen shader with border glow
 │   │   └── LaserPointer.shader           # Glowing holographic VR laser pointer
 │   ├── Plugins/Android/
-│   │   ├── AndroidManifest.xml           # Quest 3 OpenXR VR manifest
+│   │   ├── AndroidManifest.xml           # Quest 3 OpenXR VR manifest (with RECORD_AUDIO permission)
 │   │   └── MoonlightDecoderBridge.java   # Android MediaCodec zero-copy decoder bridge
 │   └── Scenes/
 │       └── MainVRDesktopScene.unity      # Main VR scene
-├── android/                              # Standalone Android Gradle build system
-├── Packages/manifest.json                # Unity package dependencies
-├── ProjectSettings/                      # OpenXR & Quest 3 player configuration
 ├── MoonlightVR-Unity.apk                 # Compiled release APK ready for sideloading
 └── README.md                             # Project documentation & download QR table
 ```
 
 ---
 
-## 📄 License
-MIT License. Built for the OpenXR, Moonlight, and Meta Quest open-source communities.
+## 📄 License & Meta Store Compliance (GNU GPL v3.0)
+
+This project is licensed under the **[GNU General Public License v3.0 (GPL-3.0)](file:///home/k/MoonlightVR-Unity/LICENSE)**.
+
+### Commercial Distribution & Meta Quest Store ($2.00 Strategy)
+In accordance with GPL-3.0 Section 4 and Preamble, charging money for distributing copies of free software is **100% permitted**. Developers are legally allowed to sell MoonlightVR on the **Meta Horizon Store / App Lab** for convenience (e.g. $2.00), provided that:
+1. **Source Code Is Freely Available**: The complete source code is publicly accessible on GitHub at [github.com/pharmacophobia/MoonlightVR-Unity](https://github.com/pharmacophobia/MoonlightVR-Unity).
+2. **In-App Source Delivery**: The app features a dedicated in-VR **About & Open Source Credits** modal providing direct links to the public source repository.
+3. **Copyleft Freedom**: Purchasers retain full legal rights to view, inspect, modify, fork, and compile the application.
+
+For step-by-step submission instructions, store description copy, and legal guidelines, see the **[Meta Quest Store Compliance Guide](file:///home/k/MoonlightVR-Unity/META_STORE_COMPLIANCE.md)**.
+
+### Upstream Open-Source Credits
+- **[Moonlight GameStream Client](https://moonlight-stream.org)** (GPL-3.0)
+- **[Sunshine GameStream Server](https://app.sunshinevr.com)** (GPL-3.0)
+- **[Moonlight Android XR](https://github.com/Gilleece/moonlight-android-xr)** (GPL-3.0) by Cameron Gilleece
