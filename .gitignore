@@ -1,0 +1,44 @@
+# Unity generated folders
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Uu]ser[Ss]ettings/
+MemoryCaptures/
+Recordings/
+
+# Visual Studio / Rider / VSCode
+.vs/
+.idea/
+*.csproj
+*.unityproj
+*.sln
+*.suo
+*.user
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+*.pdb
+*.mdb
+*.opendb
+*.VC.db
+
+# OS generated
+.DS_Store
+Thumbs.db
+
+# Android build cache
+.gradle/
+android/.gradle/
+android/app/build/
+android/local.properties
+android/captures/
+.externalNativeBuild/
+.cxx/
+
+# Ignore compiled binaries by default, but explicitly whitelist MoonlightVR-Unity.apk
+*.apk
+!MoonlightVR-Unity.apk
