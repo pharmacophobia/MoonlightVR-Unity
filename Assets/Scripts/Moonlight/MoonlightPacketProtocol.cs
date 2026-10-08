@@ -45,6 +45,7 @@ namespace MoonlightVR.Moonlight
         public const int PACKET_TYPE_MOUSE_SCROLL = 0x00000009;
         public const int PACKET_TYPE_KEYBOARD = 0x0000000A;
         public const int PACKET_TYPE_GAMEPAD = 0x0000000C;
+        public const int PACKET_TYPE_UTF8_TEXT = 0x00000017;
 
         // Mouse Buttons
         public const byte BUTTON_LEFT = 0x01;
@@ -145,6 +146,22 @@ namespace MoonlightVR.Moonlight
             WriteInt16BE(packet, 12, leftStickY);
             WriteInt16BE(packet, 14, rightStickX);
             WriteInt16BE(packet, 16, rightStickY);
+            return packet;
+        }
+
+        /// <summary>
+        /// Creates a Sunshine UTF-8 text injection packet for dictation and string inputs.
+        /// </summary>
+        public static byte[] CreateUtf8TextPacket(string text)
+        {
+            if (string.IsNullOrEmpty(text)) text = "";
+            byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
+            short payloadLen = (short)textBytes.Length;
+
+            byte[] packet = new byte[6 + payloadLen];
+            WriteInt32BE(packet, 0, PACKET_TYPE_UTF8_TEXT);
+            WriteInt16BE(packet, 4, payloadLen);
+            Buffer.BlockCopy(textBytes, 0, packet, 6, payloadLen);
             return packet;
         }
 

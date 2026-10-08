@@ -18,6 +18,7 @@ namespace MoonlightVR.UI
         public float screenDistance = 1.8f;
         public float screenScale = 1.0f;
         public bool passthrough = true;
+        public int environmentIndex = 0; // 0=Passthrough, 1=Void, 2=Cosmic, 3=Alpine, 4=Cyberpunk, 5=Nordic, 6=Loft
 
         private const string PrefKey = "MoonlightVR_SavedSettings";
 

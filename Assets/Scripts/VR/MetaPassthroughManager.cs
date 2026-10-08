@@ -26,8 +26,7 @@ namespace MoonlightVR.VR
 
         public void TogglePassthrough()
         {
-            passthroughEnabled = !passthroughEnabled;
-            ApplyPassthroughState();
+            SetPassthrough(!passthroughEnabled);
         }
 
         public void SetPassthrough(bool enable)
@@ -49,9 +48,12 @@ namespace MoonlightVR.VR
             }
             else
             {
-                // Cinema Void
-                xrCamera.clearFlags = CameraClearFlags.SolidColor;
-                xrCamera.backgroundColor = vrSkyColor;
+                // Default virtual sky color when not controlled by VREnvironmentManager
+                if (VREnvironmentManager.Instance == null || VREnvironmentManager.Instance.CurrentEnvironment == VREnvironmentType.Passthrough)
+                {
+                    xrCamera.clearFlags = CameraClearFlags.SolidColor;
+                    xrCamera.backgroundColor = vrSkyColor;
+                }
             }
 
             Debug.Log($"[MetaPassthroughManager] Passthrough active: {passthroughEnabled}");

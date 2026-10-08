@@ -21,7 +21,19 @@ adb install -r MoonlightVR-Unity.apk
 ## ✨ Features
 
 - 🖥️ **Procedural Curved Virtual Monitor**: Real-time curvature adjustment from flat plane (0°) to deep cockpit wrap-around (120° FOV).
-- 👁️ **Meta Quest 3 Mixed Reality Passthrough**: Seamlessly toggle between full MR passthrough (floating PC screen over your physical desk & keyboard) and an immersive dark cinema void.
+- 🏞️ **7 Immersive Virtual Environments**:
+  1. 🌌 **Cosmic Deep Space**: Floating observation platform suspended in an expansive nebula starfield with celestial moon.
+  2. 🏔️ **Alpine Sunset**: Warm cedar chalet deck overlooking golden-hour twilight mountain silhouettes.
+  3. 🏙️ **Cyberpunk Penthouse**: High-altitude futuristic rooftop with glowing neon grid floor and skyscraper skyline.
+  4. 🌲 **Nordic Sanctuary**: Moonlit boreal pine forest clearing with a crackling campfire hearth and glowing embers.
+  5. 🏛️ **Minimalist Modern Loft**: Scandinavian architectural studio with warm oak parquet floor and floor-to-ceiling panoramic glass.
+  6. 🎬 **Cinema Dark Void**: Pure pitch-black distraction-free void for ultra-high-contrast gaming and media.
+  7. 👁️ **Mixed Reality Passthrough**: Full-color Quest 3 pass-through to see your real-world room, desk, and physical peripherals.
+- ⌨️ **Floating 3D Virtual Keyboard with Voice Dictation**:
+  - Ergonomic floating QWERTY layout with laser pointer click and spatial finger tap support.
+  - 🎙️ **Integrated Speech-to-Text Dictation**: Low-latency voice typing powered by native Meta Quest 3 / Android `SpeechRecognizer` on-device with PC/Editor fallback.
+  - **Spoken Punctuation Parsing**: Natural conversion of spoken words ("comma", "period", "question mark", "exclamation point", "new line") into real symbols.
+  - **Direct Sunshine Stream Injection**: Instantly types recognized sentences straight into Windows/Linux host applications via Sunshine UDP packets (`PACKET_TYPE_UTF8_TEXT`).
 - 🎯 **XR Laser Pointer Desktop Interaction**: High-precision raycasting from Quest Touch Plus controllers or hand tracking with automatic UV mapping to Windows desktop resolution.
   - **Index Trigger**: Left Mouse Click & Drag
   - **Hand Grip**: Right Mouse Click
@@ -29,7 +41,7 @@ adb install -r MoonlightVR-Unity.apk
 - 🎮 **Virtual Gamepad Emulation**: Native conversion of Quest Touch Plus controller thumbsticks and buttons into virtual Xbox 360 controller packets sent to Sunshine.
 - ⚡ **Snapdragon XR2 Gen 2 Hardware Decoding**: Zero-copy `MediaCodec` and `SurfaceTexture` hardware decoder bridge delivering 4K 90/120 FPS with minimal battery drain.
 - 🔐 **Native Cryptographic Pairing**: Complete C# implementation of Moonlight's 4-digit PIN authentication, RSA-2048, and AES-128 challenge-response handshake with Sunshine.
-- 🎛️ **Spatial 3D VR Dashboard**: Floating HUD beneath the display for one-tap host discovery, PIN pairing, bitrate tuning (15–80 Mbps), distance adjustments (0.8m–4.0m), and live streaming diagnostics.
+- 🎛️ **Spatial 3D VR Dashboard**: Floating HUD beneath the display for one-tap host discovery, PIN pairing, environment switching, keyboard toggle, bitrate tuning (15–80 Mbps), distance adjustments (0.8m–4.0m), and live streaming diagnostics.
 - 🧪 **Offline Simulator Mode**: Built-in test generator for testing and editing inside Unity Editor on PC/Linux without needing an active Quest headset or Sunshine host.
 
 ---

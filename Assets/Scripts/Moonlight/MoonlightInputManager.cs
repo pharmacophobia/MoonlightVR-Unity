@@ -128,6 +128,25 @@ namespace MoonlightVR.Moonlight
         }
 
         /// <summary>
+        /// Sends a key tap (KeyDown followed by KeyUp).
+        /// </summary>
+        public void SendKeyTap(short virtualKeyCode)
+        {
+            SendKeyboardKey(virtualKeyCode, true);
+            SendKeyboardKey(virtualKeyCode, false);
+        }
+
+        /// <summary>
+        /// Injects an entire text string (such as transcribed voice dictation) into Sunshine.
+        /// </summary>
+        public void SendTextString(string text)
+        {
+            if (!_isConnected || string.IsNullOrEmpty(text)) return;
+            byte[] packet = MoonlightPacketProtocol.CreateUtf8TextPacket(text);
+            SendPacket(packet);
+        }
+
+        /// <summary>
         /// Sends complete virtual Xbox gamepad controller state.
         /// </summary>
         public void SendGamepadState(

@@ -64,14 +64,14 @@ namespace MoonlightVR.VR
 
             if (Physics.Raycast(ray, out RaycastHit hit, maxRayDistance, screenLayerMask))
             {
+                laserLine.SetPosition(1, hit.point);
+                reticleIndicator.SetActive(true);
+                reticleIndicator.transform.position = hit.point + hit.normal * 0.005f;
+                reticleIndicator.transform.forward = -hit.normal;
+
                 var screenGen = hit.collider.GetComponent<CurvedScreenGenerator>();
                 if (screenGen != null)
                 {
-                    laserLine.SetPosition(1, hit.point);
-                    reticleIndicator.SetActive(true);
-                    reticleIndicator.transform.position = hit.point + hit.normal * 0.005f;
-                    reticleIndicator.transform.forward = -hit.normal;
-
                     Vector2 uv = hit.textureCoord;
                     ProcessDesktopInput(uv);
                     return;

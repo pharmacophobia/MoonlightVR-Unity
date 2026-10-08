@@ -43,6 +43,13 @@ namespace MoonlightVR.UI
         [SerializeField] private Button recenterButton;
         [SerializeField] private Toggle passthroughToggle;
 
+        [Header("Environments & Keyboard UI Elements")]
+        [SerializeField] private TMP_Dropdown environmentDropdown;
+        [SerializeField] private Button nextEnvironmentButton;
+        [SerializeField] private TextMeshProUGUI environmentLabelText;
+        [SerializeField] private Button toggleKeyboardButton;
+        [SerializeField] private Button quickDictationButton;
+
         [Header("Diagnostics")]
         [SerializeField] private TextMeshProUGUI fpsDiagnosticsText;
 
@@ -50,15 +57,37 @@ namespace MoonlightVR.UI
         [SerializeField] private CurvedScreenGenerator screenGenerator;
         [SerializeField] private SpatialScreenInteraction screenInteraction;
         [SerializeField] private MetaPassthroughManager passthroughManager;
+        [SerializeField] private VREnvironmentManager environmentManager;
+        [SerializeField] private VRVirtualKeyboard virtualKeyboard;
 
         private SettingsData _settings;
         private string _activePin = "";
 
         private void Start()
         {
+            EnsureSubsystemsExist();
             _settings = SettingsData.Load();
             ApplyLoadedSettings();
             RegisterEventHandlers();
+        }
+
+        private void EnsureSubsystemsExist()
+        {
+            if (VREnvironmentManager.Instance == null)
+            {
+                var envGo = new GameObject("VREnvironmentManager");
+                environmentManager = envGo.AddComponent<VREnvironmentManager>();
+            }
+            if (VRDictationManager.Instance == null)
+            {
+                var dictGo = new GameObject("VRDictationManager");
+                dictGo.AddComponent<VRDictationManager>();
+            }
+            if (VRVirtualKeyboard.Instance == null)
+            {
+                var kbGo = new GameObject("VRVirtualKeyboard");
+                virtualKeyboard = kbGo.AddComponent<VRVirtualKeyboard>();
+            }
         }
 
         private void RegisterEventHandlers()
@@ -74,6 +103,24 @@ namespace MoonlightVR.UI
             if (distanceSlider != null) distanceSlider.onValueChanged.AddListener(OnDistanceChanged);
             if (scaleSlider != null) scaleSlider.onValueChanged.AddListener(OnScaleChanged);
             if (passthroughToggle != null) passthroughToggle.onValueChanged.AddListener(OnPassthroughToggled);
+
+            if (environmentDropdown != null)
+            {
+                environmentDropdown.ClearOptions();
+                environmentDropdown.AddOptions(new List<string> {
+                    "👁️ Passthrough",
+                    "🎬 Cinema Void",
+                    "🌌 Cosmic Nebula",
+                    "🏔️ Alpine Sunset",
+                    "🏙️ Cyberpunk Penthouse",
+                    "🌲 Nordic Sanctuary",
+                    "🏛️ Modern Loft"
+                });
+                environmentDropdown.onValueChanged.AddListener(OnEnvironmentDropdownChanged);
+            }
+            if (nextEnvironmentButton != null) nextEnvironmentButton.onClick.AddListener(OnNextEnvironmentClicked);
+            if (toggleKeyboardButton != null) toggleKeyboardButton.onClick.AddListener(OnToggleKeyboardClicked);
+            if (quickDictationButton != null) quickDictationButton.onClick.AddListener(OnQuickDictationClicked);
 
             if (SunshineClient.Instance != null)
             {
@@ -128,6 +175,15 @@ namespace MoonlightVR.UI
             {
                 passthroughToggle.isOn = _settings.passthrough;
                 OnPassthroughToggled(_settings.passthrough);
+            }
+            if (environmentDropdown != null)
+            {
+                environmentDropdown.value = _settings.environmentIndex;
+                OnEnvironmentDropdownChanged(_settings.environmentIndex);
+            }
+            else if (VREnvironmentManager.Instance != null)
+            {
+                VREnvironmentManager.Instance.SetEnvironment((VREnvironmentType)_settings.environmentIndex);
             }
         }
 
@@ -256,7 +312,64 @@ namespace MoonlightVR.UI
         private void OnPassthroughToggled(bool enable)
         {
             _settings.passthrough = enable;
+            _settings.environmentIndex = enable ? (int)VREnvironmentType.Passthrough : (int)VREnvironmentType.CinemaVoid;
+            if (environmentDropdown != null) environmentDropdown.value = _settings.environmentIndex;
             passthroughManager?.SetPassthrough(enable);
+            if (VREnvironmentManager.Instance != null)
+            {
+                VREnvironmentManager.Instance.SetEnvironment((VREnvironmentType)_settings.environmentIndex);
+            }
+        }
+
+        private void OnEnvironmentDropdownChanged(int index)
+        {
+            _settings.environmentIndex = index;
+            _settings.passthrough = (index == 0);
+            _settings.Save();
+
+            if (passthroughToggle != null)
+            {
+                passthroughToggle.SetIsOnWithoutNotify(index == 0);
+            }
+
+            if (VREnvironmentManager.Instance != null)
+            {
+                VREnvironmentManager.Instance.SetEnvironment((VREnvironmentType)index);
+            }
+
+            if (environmentLabelText != null)
+            {
+                environmentLabelText.text = ((VREnvironmentType)index).ToString();
+            }
+        }
+
+        private void OnNextEnvironmentClicked()
+        {
+            if (VREnvironmentManager.Instance != null)
+            {
+                VREnvironmentManager.Instance.NextEnvironment();
+                int idx = (int)VREnvironmentManager.Instance.CurrentEnvironment;
+                if (environmentDropdown != null) environmentDropdown.value = idx;
+                _settings.environmentIndex = idx;
+                _settings.passthrough = (idx == 0);
+                _settings.Save();
+            }
+        }
+
+        private void OnToggleKeyboardClicked()
+        {
+            if (VRVirtualKeyboard.Instance != null)
+            {
+                VRVirtualKeyboard.Instance.ToggleKeyboard();
+            }
+        }
+
+        private void OnQuickDictationClicked()
+        {
+            if (VRDictationManager.Instance != null)
+            {
+                VRDictationManager.Instance.ToggleDictation();
+            }
         }
 
         private void UpdateStatusText(string msg)
